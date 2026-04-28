@@ -14,26 +14,53 @@ Terraform er et Infrastructure as Code værktøj der lader dig beskrive og opret
 | `02_Basic_VM` | Komplet VM infrastruktur med variabler og sikre passwords |
 | `03_VM_With_SSH` | VM med SSH key authentication |
 
-## Kom i gang
+## Krav
 
-### Krav
-- [Terraform](https://developer.hashicorp.com/terraform/downloads)
-- [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
-- Et Azure subscription
+### Installation (Windows)
 
-### Login
-```bash
+**Terraform**
+```powershell
+winget install HashiCorp.Terraform
+```
+Eller manuel download fra https://developer.hashicorp.com/terraform/downloads — udpak `terraform.exe` til `C:\terraform` og tilføj mappen til PATH.
+
+**Azure CLI**
+```powershell
+winget install Microsoft.AzureCLI
+```
+
+**Git**
+```powershell
+winget install Git.Git
+```
+
+**VS Code**
+```powershell
+winget install Microsoft.VisualStudioCode
+```
+Installer HashiCorp Terraform extension for syntax highlighting og autocomplete.
+
+### PATH fix
+Winget opdaterer ikke PATH i aktive terminaler. Genstart terminalen efter installation, eller kør dette i den aktive session:
+```powershell
+$env:Path += ";C:\terraform;C:\Program Files\Microsoft SDKs\Azure\CLI2\wbin"
+```
+
+### Azure login
+```powershell
 az login
 ```
 
-### Deploy
+## Kom i gang
+
 ```bash
 cd 01_Setup_And_Basics
 terraform init
 terraform apply
 ```
 
-### Ryd op
+## Ryd op
+
 ```bash
 terraform destroy
 ```
