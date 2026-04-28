@@ -1,0 +1,18 @@
+cd C:\Users\Heilstrup\kea-terraform
+
+$content = @"
+# Terraform state files
+*.tfstate
+*.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+
+# Sensitive variable files
+terraform.tfvars
+*.auto.tfvars
+
+# VS Code workspace
+*.code-workspace
+"@
+
+Set-Content ".gitignore" $content
