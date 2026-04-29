@@ -1,0 +1,55 @@
+---
+- name: Setup Azure VM
+  hosts: azure
+  become: yes
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install packages
+      apt:
+        name:
+          - nginx
+          - fail2ban
+          - ufw
+          - git
+        state: present
+
+    - name: Start og enable nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Start og enable fail2ban
+      service:
+        name: fail2ban
+        state: started
+        enabled: yes
+
+    - name: Install Docker
+      shell: curl -fsSL https://get.docker.com | sh
+      args:
+        creates: /usr/bin/docker
+
+    - name: UFW - tillad SSH
+      ufw:
+        rule: allow
+        port: "22"
+
+    - name: UFW - tillad HTTP
+      ufw:
+        rule: allow
+        port: "80"
+
+    - name: UFW - tillad HTTPS
+      ufw:
+        rule: allow
+        port: "443"
+
+    - name: UFW - enable
+      ufw:
+        state: enabled
+        policy: deny

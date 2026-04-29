@@ -56,12 +56,12 @@ resource "azurerm_linux_virtual_machine" "main" {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
   }
-  source_image_reference {
-    publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "16.04-LTS"
-    version   = "latest"
-  }
+source_image_reference {
+  publisher = "Canonical"
+  offer     = "0001-com-ubuntu-server-jammy"
+  sku       = "22_04-lts-gen2"
+  version   = "latest"
+}
 }
 resource "azurerm_public_ip" "static-public-ip-example" {
   name                = "main-public-ip"
@@ -94,4 +94,25 @@ resource "azurerm_network_security_rule" "example_ssh_rule" {
 resource "azurerm_subnet_network_security_group_association" "main" {
   subnet_id                 = azurerm_subnet.main.id
   network_security_group_id = azurerm_network_security_group.example_nsg.id
+}
+resource "azurerm_network_security_rule" "http_rule" {
+  name                        = "HTTP"
+  priority                    = 900
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "80"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  network_security_group_name = azurerm_network_security_group.example_nsg.name
+  resource_group_name         = azurerm_resource_group.main.name
+}
+
+resource "local_file" "ansible_inventory" {
+  content = <<EOT
+[azure]
+${azurerm_public_ip.static-public-ip-example.ip_address} ansible_user=azureuser ansible_password=SecurePassword123! ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+EOT
+  filename = "${path.module}/ansible-azure/inventory.ini"
 }
