@@ -16,3 +16,5 @@ terraform.tfvars
 "@
 
 Set-Content ".gitignore" $content
+# Ansible
+ansible-azure/inventory.ini
