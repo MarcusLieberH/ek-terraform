@@ -14,7 +14,7 @@ terraform.tfvars
 # VS Code workspace
 *.code-workspace
 "@
-
-Set-Content ".gitignore" $content
 # Ansible
 ansible-azure/inventory.ini
+
+Set-Content ".gitignore" $content
