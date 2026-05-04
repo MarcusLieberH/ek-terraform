@@ -1,11 +1,13 @@
+#!/bin/bash
+
 echo "🚀 Opretter infrastruktur med Terraform..."
 cd "$(dirname "$0")/.."
 terraform init
 terraform apply -auto-approve
 
 echo "⚙️ Konfigurerer VM med Ansible..."
-cd ansible-azure
-sed -i 's/\r//' inventory.ini
+cd ansible
+perl -pi -e 's/\r//' inventory.ini
 sleep 30
 ansible-playbook -i inventory.ini playbook.yml
 

@@ -1,21 +1,20 @@
-variable "vm_name" {
-  description = "The name of the virtual machine"
+# variables.tf
+variable "db_admin" {
+  description = "PostgreSQL admin brugernavn"
   type        = string
-  default     = "main-vm"
 }
 
-variable "vm_username" {
-  description = "Admin username for the VM"
-  type        = string
-  default     = "azureuser"
-}
-
-variable "vm_password" {
-  description = "Admin password for the VM"
+variable "db_password" {
+  description = "PostgreSQL admin password"
   type        = string
   sensitive   = true
 }
 variable "subscription_id" {
-  description = "The Azure subscription ID"
+  description = "The azure subscription ID"
   type        = string
+}
+variable "vm_name" {
+  description = "The name of the virtual machine"
+  type        = string
+  default     = "main-vm"
 }
